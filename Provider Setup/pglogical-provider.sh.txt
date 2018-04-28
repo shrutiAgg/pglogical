@@ -1,0 +1,11 @@
+ HOSTNAME="$(hostname -i)"
+
+ docker cp pg_hba.conf postgres-db-provider:/var/lib/postgresql/data
+ docker exec -i postgres-db-provider psql -U postgres < reloadpsql.pgsql
+
+ echo "Configuring PGLOGICAL for Services"
+
+ docker cp pglogical-provider.pgsql postgres-db-provider:/
+
+ docker exec -i postgres-db-provider psql -d db1 -U postgres -f pglogical-provider.pgsql -v source_dsn="'host=$HOSTNAME port=5432  dbname=db1'"
+

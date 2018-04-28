@@ -1,0 +1,3 @@
+echo "Migrating Data"
+
+docker exec -i  postgres-db-subscriber  psql -d db 1 -U postgres < postgres-db_1.pgsql

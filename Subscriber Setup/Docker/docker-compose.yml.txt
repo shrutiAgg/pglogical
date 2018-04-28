@@ -1,0 +1,14 @@
+version: '2'
+services:
+  postgres-db-subscriber:
+      image: pglogical-postgres
+      container_name: postgres-db-subscriber:
+      ports:
+          - 5432:5432
+      environment:
+          - POSTGRES_MULTIPLE_DATABASES= db1, db2, db3
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+      volumes:
+          - /home/data/docker/volumes/postgres-db-subscriber:data:/var/lib/postgresql/data
+ 
