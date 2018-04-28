@@ -5,16 +5,16 @@ Two nodes needs to be created for postgres. Master will be called as provider an
 
 Provider Setup:
 
-1. Take backup of data from the existing applications which are pointing to postgres docker container and then stop the applications so as not to add/update any data untill migration is done. Script to perform this is kept at path : 
-2. Remove the old postgres container and install the new postgres container which is having pglogical plugin. Load the docker image and docker file to create new postgres container. The dockerfile is kept at path :
+1. Take backup of data from the existing applications which are pointing to postgres docker container and then stop the applications so as not to add/update any data untill migration is done. Script to perform this is kept at path : Provider Setup/pg_dump.sh
+2. Remove the old postgres container and install the new postgres container which is having pglogical plugin. Load the docker image and docker file to create new postgres container. The docker files are  kept at path : Provider Setup/Docker
 3. Start the applications and perform data migration from the backup of data that has been taken in step 1. 
-4. Once the data migration is done successfully then run the script kept at path: for configuring pglogical nodes on provider node.
+4. Once the data migration is done successfully then run the script kept at path: Provider Setup/pglogical-provider.sh for configuring pglogical nodes on provider node.
 5.	Once the subscriber setup is completed then the status of all nodes can be checked using sql command select * from pg_replication_slots.
 
 Subscriber Setup:
 
 1. Load the docker image and docker file to create new postgres container. 
-2. Run the DDL scripts to create tables present in provider node. Scripts are present at path:
+2. Run the DDL scripts to create tables present in provider node. Scripts are present at path: Subscriber Setup/subscriber-datamigration.sh
 3. Now run the scripts to configure pglogical node. This script requires hostname as an argument.
    Example ./ pglogical-subscriber.sh 10.0.0.23. This ip is  the ip address of Provider database. 
 4. After it is configured go to subscriber node using docker exec -it ldars-postgres-replica sh and the login to individual database to see    if subscription is working or not by following command
